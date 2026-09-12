@@ -1,0 +1,77 @@
+{
+  "users": [
+    { "id": "admin1", "username": "admin", "password": "admin123", "role": "admin", "name": "System Admin" },
+    { "id": "u1", "username": "farmer1", "password": "farmer123", "role": "farmer", "name": "Juan Dela Cruz" }
+  ],
+  "farms": [
+    {
+      "id": "f1",
+      "userId": "u1",
+      "name": "Dela Cruz Rice Field",
+      "cropType": "Rice (Palay)",
+      "areaHectares": 1.2,
+      "address": "Tanay, Rizal, Philippines",
+      "latitude": 14.4986,
+      "longitude": 121.3672,
+      "plantingDate": "2026-08-01",
+      "createdAt": "2026-08-01T00:00:00.000Z"
+    }
+  ],
+  "soilProfiles": [
+    {
+      "id": "s1",
+      "farmId": "f1",
+      "mode": "baseline",
+      "nitrogen": 45,
+      "phosphorus": 30,
+      "potassium": 38,
+      "ph": 6.2,
+      "moisturePercent": 55,
+      "source": "BSWM/MAO baseline (Tanay, Rizal)",
+      "updatedAt": "2026-08-01T00:00:00.000Z"
+    }
+  ],
+  "cropLogs": [
+    {
+      "id": "l1",
+      "farmId": "f1",
+      "date": "2026-08-15",
+      "growthStage": "Vegetative",
+      "notes": "Seedlings transplanted, healthy stand.",
+      "createdAt": "2026-08-15T00:00:00.000Z"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "n1",
+      "userId": "u1",
+      "title": "Welcome to SmartAgri",
+      "message": "Your farm profile has been created. Add soil parameters to improve forecast accuracy.",
+      "read": false,
+      "createdAt": "2026-08-01T00:00:00.000Z"
+    }
+  ],
+  "harvestRecords": [
+    { "id": "h1", "farmId": "f1", "cropType": "Rice (Palay)", "areaHectares": 1.2, "date": "2026-01-10", "actualYieldTonPerHa": 3.9, "notes": "Seed record for ML demo", "nitrogen": 40, "phosphorus": 28, "potassium": 35, "ph": 6.0, "moisturePercent": 50, "avgTemp": 27.5, "weeklyRainMm": 35, "createdAt": "2026-01-10T00:00:00.000Z" },
+    { "id": "h2", "farmId": "f1", "cropType": "Rice (Palay)", "areaHectares": 1.2, "date": "2026-02-14", "actualYieldTonPerHa": 4.4, "notes": "Seed record for ML demo", "nitrogen": 48, "phosphorus": 32, "potassium": 40, "ph": 6.3, "moisturePercent": 58, "avgTemp": 28.2, "weeklyRainMm": 42, "createdAt": "2026-02-14T00:00:00.000Z" },
+    { "id": "h3", "farmId": "f1", "cropType": "Rice (Palay)", "areaHectares": 1.2, "date": "2026-03-20", "actualYieldTonPerHa": 3.1, "notes": "Seed record for ML demo", "nitrogen": 30, "phosphorus": 20, "potassium": 25, "ph": 5.6, "moisturePercent": 30, "avgTemp": 33.8, "weeklyRainMm": 8, "createdAt": "2026-03-20T00:00:00.000Z" },
+    { "id": "h4", "farmId": "f1", "cropType": "Corn (Mais)", "areaHectares": 0.8, "date": "2026-04-05", "actualYieldTonPerHa": 3.7, "notes": "Seed record for ML demo", "nitrogen": 42, "phosphorus": 26, "potassium": 30, "ph": 6.4, "moisturePercent": 48, "avgTemp": 26.0, "weeklyRainMm": 28, "createdAt": "2026-04-05T00:00:00.000Z" },
+    { "id": "h5", "farmId": "f1", "cropType": "Corn (Mais)", "areaHectares": 0.8, "date": "2026-05-18", "actualYieldTonPerHa": 2.9, "notes": "Seed record for ML demo", "nitrogen": 25, "phosphorus": 18, "potassium": 20, "ph": 5.4, "moisturePercent": 25, "avgTemp": 32.5, "weeklyRainMm": 5, "createdAt": "2026-05-18T00:00:00.000Z" },
+    { "id": "h6", "farmId": "f1", "cropType": "Vegetables (Assorted)", "areaHectares": 0.5, "date": "2026-06-22", "actualYieldTonPerHa": 8.6, "notes": "Seed record for ML demo", "nitrogen": 50, "phosphorus": 35, "potassium": 42, "ph": 6.5, "moisturePercent": 60, "avgTemp": 25.0, "weeklyRainMm": 22, "createdAt": "2026-06-22T00:00:00.000Z" }
+  ],
+  "announcements": [
+    {
+      "id": "a1",
+      "title": "System Pilot Launch",
+      "message": "SmartAgri pilot testing begins this month for URST Tanay partner farms.",
+      "createdAt": "2026-08-01T00:00:00.000Z"
+    }
+  ],
+  "cropBaselines": {
+    "Rice (Palay)": { "baseYieldTonPerHa": 4.2, "idealTempC": [24, 32], "idealRainMmWeek": [25, 60] },
+    "Corn (Mais)": { "baseYieldTonPerHa": 3.5, "idealTempC": [20, 30], "idealRainMmWeek": [15, 45] },
+    "Vegetables (Assorted)": { "baseYieldTonPerHa": 8.0, "idealTempC": [18, 28], "idealRainMmWeek": [10, 35] },
+    "Banana": { "baseYieldTonPerHa": 15.0, "idealTempC": [22, 32], "idealRainMmWeek": [20, 50] },
+    "Coconut": { "baseYieldTonPerHa": 2.5, "idealTempC": [22, 32], "idealRainMmWeek": [15, 45] }
+  }
+}
