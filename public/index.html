@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SmartAgri — Login</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<div class="login-wrap">
+  <div class="login-card">
+    <h1>SmartAgri</h1>
+    <p class="sub">Intelligent Crop Yield Forecasting — University of Rizal System, Tanay</p>
+    <form id="loginForm">
+      <div>
+        <label>Username</label>
+        <input type="text" id="username" required autocomplete="username" />
+      </div>
+      <div>
+        <label>Password</label>
+        <input type="password" id="password" required autocomplete="current-password" />
+      </div>
+      <div class="error" id="loginError"></div>
+      <button class="primary" type="submit">Log In</button>
+    </form>
+    <div class="hint">
+      Demo accounts —<br />
+      Farmer: <b>farmer1</b> / <b>farmer123</b><br />
+      Admin: <b>admin</b> / <b>admin123</b>
+    </div>
+  </div>
+</div>
+<script src="/js/api.js"></script>
+<script>
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value;
+  const errEl = document.getElementById("loginError");
+  errEl.textContent = "";
+  try {
+    const { token, user } = await API.post("/api/login", { username, password });
+    API.setToken(token);
+    window.location.href = user.role === "admin" ? "/admin.html" : "/app.html";
+  } catch (err) {
+    errEl.textContent = err.message || "Login failed";
+  }
+});
+</script>
+</body>
+</html>

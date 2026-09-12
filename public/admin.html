@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SmartAgri — Admin</title>
+<link rel="stylesheet" href="/css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<style>#regionMap { height: 380px; border-radius: 10px; }</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand">Smart<span>Agri</span> Admin</div>
+  <div class="user">
+    <span id="userName"></span>
+    <button class="link" id="logoutBtn">Log out</button>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <button data-page="dashboard" class="nav-btn active">Main Dashboard</button>
+    <button data-page="dataManagement" class="nav-btn">Data Management</button>
+    <button data-page="governance" class="nav-btn">System Governance</button>
+  </div>
+
+  <div class="main">
+
+    <!-- 1. ADMIN MAIN DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <h2 style="margin-top:0">Regional Yield Map &amp; Agri Analytics</h2>
+      <div class="grid">
+        <div class="card stat"><div class="label">Total Farms</div><div class="value" id="statFarms">—</div></div>
+        <div class="card stat"><div class="label">Total Hectares</div><div class="value" id="statHectares">—</div></div>
+        <div class="card stat"><div class="label">Crop Types Tracked</div><div class="value" id="statCrops">—</div></div>
+      </div>
+      <div class="card">
+        <h2>Regional Farm Map (URST Tanay coverage)</h2>
+        <div id="regionMap"></div>
+      </div>
+      <div class="card">
+        <h2>Farms &amp; Live Climate Risk</h2>
+        <table id="farmsTable"><thead><tr><th>Farm</th><th>Crop</th><th>Area (ha)</th><th>Address</th><th>Climate Risk</th><th>Est. Yield</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <!-- 2. DATA MANAGEMENT -->
+    <div class="page" id="page-dataManagement">
+      <h2>Data Management</h2>
+      <div class="card">
+        <h2>ML Performance Monitoring</h2>
+        <div class="grid" id="mlMetrics"></div>
+        <div class="flex mt16">
+          <button class="primary" id="trainBtn">Train Model</button>
+          <span class="small" id="trainStatus"></span>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Data Export</h2>
+        <p class="small">Export all farm profile records as CSV.</p>
+        <button class="primary" id="exportBtn">Download Farms CSV</button>
+      </div>
+    </div>
+
+    <!-- 3. SYSTEM GOVERNANCE -->
+    <div class="page" id="page-governance">
+      <h2>System Governance</h2>
+      <div class="card">
+        <h2>Post Custom Announcement</h2>
+        <form id="annForm">
+          <div><label>Title</label><input type="text" id="ann_title" required /></div>
+          <div><label>Message</label><textarea id="ann_message" required></textarea></div>
+          <button class="primary" type="submit">Publish to All Farmers</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Published Announcements</h2>
+        <div id="annList"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/admin.js"></script>
+</body>
+</html>

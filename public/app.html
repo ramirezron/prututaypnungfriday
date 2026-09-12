@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SmartAgri — Farmer Dashboard</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<div class="topbar">
+  <div class="brand">Smart<span>Agri</span></div>
+  <div class="user">
+    <span id="userName"></span>
+    <button class="link" id="logoutBtn">Log out</button>
+  </div>
+</div>
+<div class="layout">
+  <div class="sidebar">
+    <button data-page="dashboard" class="nav-btn active">Main Dashboard</button>
+    <button data-page="addFarm" class="nav-btn">Add Farm Profile</button>
+    <button data-page="editFarm" class="nav-btn">Edit Farm Profile</button>
+    <button data-page="logs" class="nav-btn">Crop Growth Logs</button>
+    <button data-page="soil" class="nav-btn">Soil Parameters</button>
+    <button data-page="notifications" class="nav-btn">Notification Center</button>
+  </div>
+
+  <div class="main">
+
+    <!-- 1. MAIN DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <h2 style="margin-top:0">Main Dashboard</h2>
+      <div class="card">
+        <h2>Farm Profile</h2>
+        <div class="farm-list" id="farmChips"></div>
+        <p class="small" id="noFarmsHint" style="display:none">No farm profiles yet — add one from the sidebar.</p>
+      </div>
+
+      <div class="grid">
+        <div class="card stat">
+          <div class="label">Estimated Yield</div>
+          <div class="value" id="yieldValue">—</div>
+          <div class="small" id="yieldNote"></div>
+        </div>
+        <div class="card stat">
+          <div class="label">Climate Risk</div>
+          <div class="value"><span class="badge" id="riskBadge">—</span></div>
+          <div class="small" id="riskReasons"></div>
+        </div>
+      </div>
+      <p class="small">Climate risk is assessed from recent NASA POWER ground observations for your farm's location, not a forecast — use your phone's built-in weather app (e.g. AccuWeather) for that.</p>
+    </div>
+
+    <!-- 2. ADD FARM PROFILE -->
+    <div class="page" id="page-addFarm">
+      <h2>Add Farm Profile</h2>
+      <div class="card">
+        <form id="addFarmForm">
+          <div><label>Farm Name</label><input type="text" id="af_name" required /></div>
+          <div><label>Crop Type</label>
+            <select id="af_cropType">
+              <option>Rice (Palay)</option>
+              <option>Corn (Mais)</option>
+              <option>Vegetables (Assorted)</option>
+              <option>Banana</option>
+              <option>Coconut</option>
+            </select>
+          </div>
+          <div><label>Area (hectares)</label><input type="number" step="0.01" id="af_area" required /></div>
+          <div><label>Address / Barangay</label><input type="text" id="af_address" placeholder="e.g. Tanay, Rizal, Philippines" required /></div>
+          <div class="flex">
+            <button type="button" class="ghost" id="af_geocode">Find coordinates</button>
+            <span class="small" id="af_geocodeResult"></span>
+          </div>
+          <input type="hidden" id="af_lat" /><input type="hidden" id="af_lon" />
+          <div><label>Planting Date</label><input type="date" id="af_plantingDate" /></div>
+          <div class="error" id="af_error"></div>
+          <button class="primary" type="submit">Save Farm Profile</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 3. EDIT FARM PROFILE -->
+    <div class="page" id="page-editFarm">
+      <h2>Edit Farm Profile</h2>
+      <div class="card">
+        <label>Select Farm</label>
+        <select id="ef_select"></select>
+        <form id="editFarmForm" class="mt16">
+          <div><label>Farm Name</label><input type="text" id="ef_name" required /></div>
+          <div><label>Crop Type</label>
+            <select id="ef_cropType">
+              <option>Rice (Palay)</option>
+              <option>Corn (Mais)</option>
+              <option>Vegetables (Assorted)</option>
+              <option>Banana</option>
+              <option>Coconut</option>
+            </select>
+          </div>
+          <div><label>Area (hectares)</label><input type="number" step="0.01" id="ef_area" required /></div>
+          <div><label>Address / Barangay</label><input type="text" id="ef_address" required /></div>
+          <div><label>Planting Date</label><input type="date" id="ef_plantingDate" /></div>
+          <div class="flex mt8">
+            <button class="primary" type="submit">Save Changes</button>
+            <button type="button" class="ghost danger" id="ef_delete">Delete Farm</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 4. CROP GROWTH LOGS -->
+    <div class="page" id="page-logs">
+      <h2>Crop Growth Logs</h2>
+      <div class="card">
+        <label>Farm</label>
+        <select id="log_farmSelect"></select>
+        <form id="logForm" class="mt16">
+          <div><label>Date</label><input type="date" id="log_date" required /></div>
+          <div><label>Growth Stage</label>
+            <select id="log_stage">
+              <option>Land Preparation</option>
+              <option>Seedling</option>
+              <option>Vegetative</option>
+              <option>Reproductive</option>
+              <option>Ripening</option>
+              <option>Harvest</option>
+            </select>
+          </div>
+          <div><label>Notes</label><textarea id="log_notes" placeholder="Observations, pest/disease signs, actions taken..."></textarea></div>
+          <button class="primary" type="submit">Add Log Entry</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>History</h2>
+        <table id="logsTable"><thead><tr><th>Date</th><th>Stage</th><th>Notes</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div class="card">
+        <h2>Log Harvest Outcome</h2>
+        <p class="small">This is what trains the yield model — record the <b>actual</b> yield once you harvest, and the system snapshots your soil parameters + recent climate data alongside it.</p>
+        <form id="harvestForm">
+          <div><label>Harvest Date</label><input type="date" id="hv_date" required /></div>
+          <div><label>Actual Yield (tons/hectare)</label><input type="number" step="0.01" id="hv_yield" required /></div>
+          <div><label>Notes (optional)</label><textarea id="hv_notes"></textarea></div>
+          <button class="primary" type="submit">Save Harvest Record</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Harvest History</h2>
+        <table id="harvestTable"><thead><tr><th>Date</th><th>Actual Yield (t/ha)</th><th>Notes</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <!-- 5. SOIL PARAMETERS -->
+    <div class="page" id="page-soil">
+      <h2>Soil Parameters / Inputs</h2>
+      <div class="card">
+        <label>Farm</label>
+        <select id="soil_farmSelect"></select>
+        <div class="flex mt16" style="gap:20px">
+          <label class="flex"><input type="radio" name="soilMode" value="baseline" checked style="width:auto" /> Load baseline (BSWM/MAO)</label>
+          <label class="flex"><input type="radio" name="soilMode" value="manual" style="width:auto" /> Manual input</label>
+        </div>
+        <form id="soilForm" class="mt16">
+          <div><label>Nitrogen (N, kg/ha)</label><input type="number" id="soil_n" /></div>
+          <div><label>Phosphorus (P, kg/ha)</label><input type="number" id="soil_p" /></div>
+          <div><label>Potassium (K, kg/ha)</label><input type="number" id="soil_k" /></div>
+          <div><label>Soil pH</label><input type="number" step="0.1" id="soil_ph" /></div>
+          <div><label>Moisture (%)</label><input type="number" id="soil_moisture" /></div>
+          <button class="primary" type="submit">Save Soil Profile</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Recorded Profiles</h2>
+        <table id="soilTable"><thead><tr><th>Date</th><th>Mode</th><th>N</th><th>P</th><th>K</th><th>pH</th><th>Moisture</th><th>Source</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <!-- 6. NOTIFICATION CENTER -->
+    <div class="page" id="page-notifications">
+      <h2>Notification Center</h2>
+      <div class="card" id="notifList"></div>
+    </div>
+
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
